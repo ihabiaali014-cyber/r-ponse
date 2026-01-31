@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veux-tu être ma Valentine? 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffc5e5 0%, #ffb3d9 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 30px;
+            padding: 50px 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .cat-container {
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .cat {
+            font-size: 120px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .heart {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 50px;
+            animation: heartbeat 1s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 40px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .name {
+            color: #ff4d94;
+            font-weight: bold;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        #yesBtn {
+            background: #ff4d94;
+            color: white;
+        }
+
+        #yesBtn:hover {
+            background: #ff3380;
+            transform: scale(1.1);
+        }
+
+        #noBtn {
+            background: #e0e0e0;
+            color: #666;
+            position: relative;
+        }
+
+        #noBtn:hover {
+            background: #d0d0d0;
+        }
+
+        .note {
+            margin-top: 30px;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .note::before {
+            content: "😈";
+            margin-right: 5px;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ff4d94;
+            position: absolute;
+            animation: confetti-fall 3s linear;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .success-message {
+            display: none;
+            margin-top: 30px;
+            font-size: 24px;
+            color: #ff4d94;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .celebration {
+            font-size: 50px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cat-container">
+            <div class="cat">🐱</div>
+            <div class="heart">💗</div>
+        </div>
+        
+        <h1>
+            <span class="name">Nour l'amour de ma vie</span>,<br>veux-tu être ma Valentine? 💕
+        </h1>
+        
+        <div class="buttons">
+            <button id="yesBtn">Oui 💖</button>
+            <button id="noBtn">Non</button>
+        </div>
+        
+        <div class="note">*"Non" semble un peu méchant 😈</div>
+        
+        <div class="success-message" id="successMsg">
+            <div>Yayyy! 🎉</div>
+            <div class="celebration">💕 Je t'aime! 💕</div>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const successMsg = document.getElementById('successMsg');
+        const container = document.querySelector('.container');
+        const buttons = document.querySelector('.buttons');
+        const note = document.querySelector('.note');
+
+        let noBtnSize = 1;
+        let yesBtnSize = 1;
+
+        // Fonction pour créer des confettis
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * window.innerWidth + 'px';
+                    confetti.style.background = ['#ff4d94', '#ffc5e5', '#ff6b9d', '#c44569'][Math.floor(Math.random() * 4)];
+                    confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.height = confetti.style.width;
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        // Quand on clique sur "Oui"
+        yesBtn.addEventListener('click', () => {
+            createConfetti();
+            buttons.style.display = 'none';
+            note.style.display = 'none';
+            successMsg.style.display = 'block';
+            
+            // Animation de la page
+            container.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                container.style.transform = 'scale(1)';
+            }, 300);
+        });
+
+        // Quand on survole "Non", il devient plus petit et "Oui" plus grand
+        noBtn.addEventListener('mouseenter', () => {
+            noBtnSize -= 0.1;
+            yesBtnSize += 0.2;
+            
+            if (noBtnSize > 0.3) {
+                noBtn.style.transform = `scale(${noBtnSize})`;
+                yesBtn.style.transform = `scale(${yesBtnSize})`;
+            } else {
+                // Le bouton "Non" disparaît presque complètement
+                noBtn.style.opacity = '0.3';
+                noBtn.style.cursor = 'not-allowed';
+            }
+        });
+
+        // Rendre le bouton "Non" difficile à cliquer
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Faire bouger le bouton "Non" de manière aléatoire
+            const x = Math.random() * (window.innerWidth - 200) - (window.innerWidth / 2 - 100);
+            const y = Math.random() * (window.innerHeight - 200) - (window.innerHeight / 2 - 100);
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = '50%';
+            noBtn.style.top = '50%';
+            noBtn.style.transform = `translate(${x}px, ${y}px) scale(${noBtnSize})`;
+            
+            // Agrandir encore plus le bouton "Oui"
+            yesBtnSize += 0.3;
+            yesBtn.style.transform = `scale(${yesBtnSize})`;
+        });
+    </script>
+</body>
+</html>
